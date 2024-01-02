@@ -158,6 +158,10 @@ class ImportAction extends Action
 
                 $options = $this->cachedHeadingOptions;
 
+                if (config('filesystems.default') == 's3'){
+                    $filePath = $uploadedFile->storeAs(config('filament-import.directory'), $uploadedFile->getFilename(),['disk'=>config('filament-import.disk')]);
+                }
+
                 if (count($options) == 0) {
                     $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
                 }
